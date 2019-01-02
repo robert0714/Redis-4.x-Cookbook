@@ -1,0 +1,37 @@
+version: '2'
+services:
+    master:
+        image: redis:4.0.12 
+        container_name: master
+        # ports:
+        #   - "6379:6379"
+        network_mode:  "host"
+        restart: always        
+        command:
+        - /usr/local/etc/redis/redis.conf
+        volumes:
+        - $PWD/data/master:/data:Z
+        - $PWD/config/master/redis.conf:/usr/local/etc/redis/redis.conf
+        environment:
+        - TZ=Asia/Taipei    
+    slave6380:
+        image: redis:4.0.12 
+        container_name: slave01
+        # ports:
+        #   - "6380:6380"
+        network_mode:  "host"
+        restart: always
+        command:
+        - /usr/local/etc/redis/redis.conf
+        volumes:
+        - $PWD/data/slave:/data:Z
+        - $PWD/config/slave01/redis.conf:/usr/local/etc/redis/redis.conf
+        environment:
+        - TZ=Asia/Taipei   
+        expose: 
+            - 6380
+        depends_on: 
+          - master    
+
+
+#https://testerhome.com/topics/13091

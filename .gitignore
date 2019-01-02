@@ -42,7 +42,7 @@
 **/**/.settings/
 **/**/bin/
 **/**/target/
-
+**/**/data/
 
 # Windows image file caches
 Thumbs.db
