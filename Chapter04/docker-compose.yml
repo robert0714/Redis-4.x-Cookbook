@@ -4,9 +4,10 @@ services:
     container_name:  redis
     image: redis:4.0.12 
     command:
-    - --loglevel warning
-#    volumes:
-#    - $PWD/redis:/var/lib/redis:Z
+    - /usr/local/etc/redis/redis.conf
+    volumes:
+    - $PWD/data:/data:Z
+    - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
     network_mode:  "host"
     environment:
        - TZ=Asia/Taipei
