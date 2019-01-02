@@ -2,7 +2,6 @@ version: '2'
 services:   
   redis:
     container_name:  redis
-#     image: redis:alpine
     image: redis:4.0.12 
     command:
     - --loglevel warning
