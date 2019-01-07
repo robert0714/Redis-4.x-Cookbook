@@ -1,0 +1,6 @@
+- name:  Redis
+  yum: 
+     name: redis-server
+     state: latest  
+  ignore_errors: yes
+  tags: [redis]

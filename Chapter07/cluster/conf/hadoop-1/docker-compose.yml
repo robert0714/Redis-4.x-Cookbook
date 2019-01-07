@@ -1,0 +1,15 @@
+version: '2'
+services:   
+  redis:
+    container_name:  redis
+    image: redis:4.0.12 
+    command:
+    - /usr/local/etc/redis/redis.conf
+    volumes:
+    - $PWD/data:/data:Z
+    - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+    network_mode:  "host"
+    environment:
+       - TZ=Asia/Taipei
+#    ports:
+#      - 6379:6379 

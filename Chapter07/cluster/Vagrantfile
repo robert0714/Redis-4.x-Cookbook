@@ -1,0 +1,43 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  if (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+    config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=700,fmode=600"]
+  else
+    config.vm.synced_folder ".", "/vagrant"
+  end
+  config.vm.define "cd" do |d|
+    d.vm.box ="ubuntu/bionic64" 
+    d.vm.hostname = "cd"
+    d.vm.network "private_network", ip: "192.168.1.50"
+    d.vm.provision :shell, path: "scripts/bootstrap_ansible.sh"
+    d.vm.provision :shell, inline: "PYTHONUNBUFFERED=1 ansible-playbook /vagrant/ansible/cd.yml -c local"
+    d.vm.provider "virtualbox" do |v|
+      v.memory = 2048
+    end
+  end
+  (1..3).each do |i|
+    config.vm.define "hadoop-#{i}" do |d|
+      d.vm.box ="ubuntu/bionic64" 
+      d.vm.hostname = "hadoop-#{i}"
+      j=i+6
+      d.vm.network "private_network", ip: "192.168.1.5#{j}"      
+      d.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+      end
+      d.vm.provision :shell, inline: "echo 511 > /proc/sys/net/core/somaxconn"
+      d.vm.provision :shell, inline: "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+      d.vm.provision :shell, inline: "sysctl vm.overcommit_memory=1"
+      d.vm.provision :shell, inline: "  apt install -y redis-server"
+    end
+  end  
+  if Vagrant.has_plugin?("vagrant-cachier")
+    config.cache.scope = :box
+  end
+   if Vagrant.has_plugin?("vagrant-vbguest")
+     config.vbguest.auto_update = false
+     config.vbguest.no_install = false
+     config.vbguest.no_remote = false
+   end
+end
