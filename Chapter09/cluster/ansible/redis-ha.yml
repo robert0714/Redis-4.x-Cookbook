@@ -1,0 +1,7 @@
+- hosts: redis-ha
+  remote_user: vagrant
+  serial: 1
+  roles:
+    - common
+    - docker
+    - docker-compose

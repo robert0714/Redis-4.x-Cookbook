@@ -1,0 +1,7 @@
+  
+- name: redis-server is present
+  apt:
+    name: redis-server
+    force: yes
+  ignore_errors: yes
+  tags: [redis]
