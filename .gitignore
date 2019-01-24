@@ -24,7 +24,7 @@
 **/.settings/
 **/app.log
 **/target
-
+**/**/*.log
 **/**/**/.classpath
 **/**/**/.project
 **/**/**/.settings/

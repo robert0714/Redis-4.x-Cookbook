@@ -26,8 +26,8 @@ Vagrant.configure(2) do |config|
         v.memory = 2048
       end
       d.vm.provision :shell, inline: "echo 65535 > /proc/sys/net/core/somaxconn"
-      d.vm.provision :shell, inline: "net.core.somaxconn=65535" >> /etc/sysctl.conf"
-      d.vm.provision :shell, inline: "net.ipv4.tcp_max_syn_backlog=65535" >> /etc/sysctl.conf"
+      d.vm.provision :shell, inline: "net.core.somaxconn=65535 >> /etc/sysctl.conf"
+      d.vm.provision :shell, inline: "net.ipv4.tcp_max_syn_backlog=65535 >> /etc/sysctl.conf"
       d.vm.provision :shell, inline: "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
       d.vm.provision :shell, inline: "echo never > /sys/kernel/mm/transparent_hugepage/defrag"
       d.vm.provision :shell, inline: "echo vm.overcommit_memory=1  > /etc/sysctl.conf"
@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
       d.vm.provision :shell, inline: " mkdir -p /redis/log"      
       d.vm.provision :shell, inline: " mkdir  -p /redis/data"
       d.vm.provision :shell, inline: " apt install -y redis-server"
-      d.vm.provision :shell, inline: " apt install -y python"
+      d.vm.provision :shell, inline: " apt install -y python" 
     end
   end  
   if Vagrant.has_plugin?("vagrant-cachier")
